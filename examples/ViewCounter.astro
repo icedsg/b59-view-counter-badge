@@ -1,0 +1,15 @@
+---
+// Astro. Counts the visit and shows the badge for the current page.
+//   <ViewCounter id="YOUR-TRACKER-ID" />
+const { id, label = "views" } = Astro.props;
+const q = new URLSearchParams({ id, path: Astro.url.pathname });
+if (label !== "views") q.set("label", label);
+---
+<img src={`https://b59.link/badge.svg?${q}`} alt={label} height="20" />
+<script is:inline define:vars={{ id }}>
+  (function () {
+    var i = new Image();
+    i.referrerPolicy = "no-referrer-when-downgrade";
+    i.src = "https://b59.link/tag?id=" + id + "&u=" + encodeURIComponent(location.href) + "&r=" + encodeURIComponent(document.referrer);
+  })();
+</script>

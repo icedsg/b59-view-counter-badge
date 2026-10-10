@@ -1,0 +1,8 @@
+{% comment %}
+  Jekyll / GitHub Pages. Save as _includes/views.html, then in a page or layout:
+    {% include views.html id="YOUR-TRACKER-ID" %}
+  Counts the visit and shows the badge for the current page.
+{% endcomment %}
+<img src="https://b59.link/badge.svg?id={{ include.id }}&path={{ page.url | relative_url | url_encode }}" alt="views" height="20">
+<script>(function(){var i=new Image();i.referrerPolicy="no-referrer-when-downgrade";
+i.src="https://b59.link/tag?id={{ include.id }}&u="+encodeURIComponent(location.href)+"&r="+encodeURIComponent(document.referrer);})();</script>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>View counter example</title>
+</head>
+<body>
+  <h1>My page</h1>
+
+  <!-- Shows the count for this page. Remove the path part of the script below for the whole site's total. -->
+  <img id="views" alt="views" height="20">
+
+  <!-- Replace YOUR-TRACKER-ID (twice). Get one at https://b59.link/tracker -->
+  <script>
+    (function () {
+      var id = "YOUR-TRACKER-ID";
+      // counts the visit
+      var i = new Image();
+      i.referrerPolicy = "no-referrer-when-downgrade";
+      i.src = "https://b59.link/tag?id=" + id + "&u=" + encodeURIComponent(location.href) + "&r=" + encodeURIComponent(document.referrer);
+      // shows the badge
+      document.getElementById("views").src =
+        "https://b59.link/badge.svg?id=" + id + "&path=" + encodeURIComponent(location.pathname);
+    })();
+  </script>
+</body>
+</html>
