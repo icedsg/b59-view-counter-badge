@@ -10,6 +10,9 @@ There are two pieces:
 1. **A tag** on your site that counts each visit.
 2. **A badge**, an SVG image that shows the total. It works anywhere an image does, including a GitHub README.
 
+Where no script can run (a GitHub profile README, a forum or music profile), the badge can do both: add `count=1`
+and each load of the badge counts as a view. See [README and profile pages](#readme-and-profile-pages).
+
 The badge above is live: it's the count for b59.link itself.
 
 *Disclosure: this repo is maintained by Biz59 LLC, the company that runs b59.link.*
@@ -49,7 +52,30 @@ Put the script once in your layout so every page is counted, and the `<img>` whe
 ![views](https://b59.link/badge.svg?id=YOUR-TRACKER-ID)
 ```
 
-This shows the count from your site. A README can't run the tag, so views of the README itself aren't counted.
+This shows the count from your site. A README can't run the tag, so views of the README itself aren't counted
+this way. To count them, use the next section.
+
+### README and profile pages
+
+```md
+![views](https://b59.link/badge.svg?id=YOUR-TRACKER-ID&path=/readme&count=1)
+```
+
+With `count=1` the badge counts each time it loads, and it is sent with no-cache headers, so GitHub's image proxy
+fetches it again on every view and the number is current. The same in HTML, for profiles that take an image but no
+script:
+
+```html
+<img src="https://b59.link/badge.svg?id=YOUR-TRACKER-ID&path=/readme&count=1" alt="views" height="20">
+```
+
+- `path` is optional. With it, README views are kept apart from your site's pages and the badge shows only them.
+- GitHub loads README images through its own proxy, which hides the viewer. These views have no referrer or place,
+  and many viewers share a few proxy addresses.
+- The same viewer counts at most once a minute, so holding down reload doesn't run the number up. A tracker takes up
+  to 5,000 badge-counted views a day.
+- A counting badge works on any page, not only your tracker's domain: anyone who copies its address counts on your
+  tracker. Keep it on pages you control, and use a separate tracker if that matters to you.
 
 ### One page only
 
@@ -90,11 +116,12 @@ Each one shows the count for the current page. Drop the `path` part to show the 
 | `id` | yes | Your tracker ID. |
 | `path` | no | Count one page, e.g. `/docs/intro`. Without it: all pages. |
 | `label` | no | Text on the left. Default `views`, up to 24 characters. |
+| `count` | no | `1`: each load of the badge counts as a view (README and profile pages). Without it the badge only shows the count. |
 
 ## Good to know
 
 - **The badge is a few minutes behind.** Counts are cached for five minutes, so your own visit shows up a little
-  later. GitHub also caches README images on its side.
+  later. GitHub also caches README images on its side. A `count=1` badge isn't cached and is always current.
 - **Visits are counted on the tracker's own domain** and its subdomains. A tag pasted on another site counts
   nothing.
 - **The same visitor on the same page within 10 seconds counts once**, so a tag that ends up on a page twice does
